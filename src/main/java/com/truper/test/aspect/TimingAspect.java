@@ -8,17 +8,14 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-@Slf4j
 public class TimingAspect {
 
-    @Around("@annotation(Timed)")
-    public Object measureTime(ProceedingJoinPoint joinPoint) throws Throwable {
-        long start = System.nanoTime();
-        Object result = joinPoint.proceed();
-        long end = System.nanoTime();
-        long duration = end - start;
-        log.info("Método {} ejecutado en {} segundos ({} s)",
-                joinPoint.getSignature().toShortString(), duration, duration / 60);
-        return result;
+    @Around("execution(* com.truper.test.service.*.*.*(..))")
+    public Object manageTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
+        long start = System.currentTimeMillis();
+        Object proceed = joinPoint.proceed();
+        long executionTime = System.currentTimeMillis() - start;
+        System.out.println(joinPoint.getSignature() + " executed in " + executionTime + "ms");
+        return proceed;
     }
 }

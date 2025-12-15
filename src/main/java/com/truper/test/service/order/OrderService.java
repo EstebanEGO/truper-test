@@ -1,12 +1,12 @@
 package com.truper.test.service.order;
 
-import com.truper.test.anotation.Timed;
+
 import com.truper.test.common.exception.ItemNotFoundException;
 import com.truper.test.common.exception.StandardBadRequestException;
-import com.truper.test.dto.request.OrderPricesRequest;
-import com.truper.test.dto.request.OrderRequest;
-import com.truper.test.dto.request.ProductPriceRequest;
-import com.truper.test.dto.request.ProductRequest;
+import com.truper.test.dto.request.order.OrderPricesRequest;
+import com.truper.test.dto.request.order.OrderRequest;
+import com.truper.test.dto.request.product.ProductPriceRequest;
+import com.truper.test.dto.request.product.ProductRequest;
 import com.truper.test.dto.response.OnlyId;
 import com.truper.test.dto.response.OrderResponse;
 import com.truper.test.mapper.ProductMapper;
@@ -19,10 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,7 +35,6 @@ public class OrderService implements IReadOrderService, IWriteOrderService {
     @Autowired
     private ProductMapper productMapper;
 
-    @Timed
     @Override
     public OrderResponse findById(Integer id) {
 
@@ -61,7 +56,6 @@ public class OrderService implements IReadOrderService, IWriteOrderService {
     @Transactional
     @Override
     public OnlyId save(OrderRequest request) {
-        LocalDateTime start = LocalDateTime.now();
 
         Integer branchId = request.branchId();
         BranchEntity branch = branchRepository.findById(branchId)
@@ -81,18 +75,12 @@ public class OrderService implements IReadOrderService, IWriteOrderService {
         order.setTotal(order.calculateTotal());
 
         Integer idDb = repository.save(order).getId();
-
-        LocalDateTime end = LocalDateTime.now();
-        Duration duration = Duration.between(start, end);
-        System.out.println(duration.getSeconds());
-
         return new OnlyId(idDb);
     }
 
     @Transactional
     @Override
     public OnlyId updatePrices(OrderPricesRequest request) {
-        LocalDateTime start = LocalDateTime.now();
         Integer id = request.id();
         OrderEntity order = repository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("Order no encontrada con la id: " + id));
@@ -120,10 +108,6 @@ public class OrderService implements IReadOrderService, IWriteOrderService {
         order.setTotal(order.calculateTotal());
 
         Integer idDb = repository.save(order).getId();
-
-        LocalDateTime end = LocalDateTime.now();
-        Duration duration = Duration.between(start, end);
-        System.out.println(duration.getSeconds());
         return new OnlyId(idDb);
     }
 }

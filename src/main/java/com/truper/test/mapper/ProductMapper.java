@@ -1,6 +1,6 @@
 package com.truper.test.mapper;
 
-import com.truper.test.dto.request.ProductRequest;
+import com.truper.test.dto.request.product.ProductRequest;
 import com.truper.test.dto.response.ProductResponse;
 import com.truper.test.model.entity.ProductEntity;
 import org.springframework.stereotype.Component;

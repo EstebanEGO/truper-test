@@ -1,5 +1,6 @@
-package com.truper.test.dto.request;
+package com.truper.test.dto.request.order;
 
+import com.truper.test.dto.request.product.ProductRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -7,12 +8,12 @@ import jakarta.validation.constraints.Positive;
 
 import java.util.List;
 
-public record OrderPricesRequest(
+public record OrderRequest(
         @NotNull
         @Positive
-        Integer id,
+        Integer branchId,
         @NotEmpty
         @Valid
-        List<ProductPriceRequest> products
+        List<ProductRequest> products
 ) {
 }

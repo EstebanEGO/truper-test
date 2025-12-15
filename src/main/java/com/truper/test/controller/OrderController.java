@@ -1,7 +1,7 @@
 package com.truper.test.controller;
 
-import com.truper.test.dto.request.OrderPricesRequest;
-import com.truper.test.dto.request.OrderRequest;
+import com.truper.test.dto.request.order.OrderPricesRequest;
+import com.truper.test.dto.request.order.OrderRequest;
 import com.truper.test.dto.response.OnlyId;
 import com.truper.test.dto.response.OrderResponse;
 import com.truper.test.service.order.IReadOrderService;
